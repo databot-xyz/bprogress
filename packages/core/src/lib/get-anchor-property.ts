@@ -41,15 +41,15 @@ export function getAnchorProperty<
 
   const prop = a[key];
 
-  if (prop instanceof SVGAnimatedString) {
-    const value = prop.baseVal as unknown;
-
-    if (key === 'href') {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return addPathPrefix(value as string, location.origin) as any;
+  if (
+    typeof window !== "undefined" &&
+    typeof SVGAnimatedString !== "undefined" &&
+    prop instanceof SVGAnimatedString
+  ) {
+    const value = prop.baseVal;
+    if (key === "href") {
+      return addPathPrefix(value, location.origin) as any;
     }
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return value as any;
   }
 
